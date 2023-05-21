@@ -1,0 +1,571 @@
+
+#include "pch.h"
+#include "framework.h"
+#include "Bagesha_KR_2193_V4.h"
+#include "Bagesha_KR_2193_V4Dlg.h"
+#include "afxdialogex.h"
+#define _USE_MATH_DEFINES
+#include "math.h"
+#ifdef _DEBUG
+#define new DEBUG_NEW
+#endif
+#define timerw 100
+
+
+class CAboutDlg : public CDialogEx
+{
+public:
+	CAboutDlg();
+
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_ABOUTBOX };
+#endif
+
+	protected:
+	virtual void DoDataExchange(CDataExchange* pDX);   
+
+protected:
+	DECLARE_MESSAGE_MAP()
+};
+
+CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
+{
+}
+
+void CAboutDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+}
+
+BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+END_MESSAGE_MAP()
+
+
+CBageshaKR2193V4Dlg::CBageshaKR2193V4Dlg(CWnd* pParent /*=nullptr*/)
+	: CDialogEx(IDD_BAGESHA_KR_2193_V4_DIALOG, pParent)
+	, speedv(0)
+	, Acon(0)
+	, k1co(0)
+	, Acon1(_T(""))
+	, k1con1(_T(""))
+{
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+}
+
+void CBageshaKR2193V4Dlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_RADIO1, set1);
+	DDX_Control(pDX, IDC_RADIO3, set2);
+	DDX_Control(pDX, IDC_RADIO2, set3);
+	DDX_Control(pDX, IDC_EDIT1, speedc);
+	DDX_Slider(pDX, IDC_SLIDER1, speedv);
+	DDX_Control(pDX, IDC_CHECK2, f1);
+	DDX_Control(pDX, IDC_CHECK4, f2);
+	DDX_Control(pDX, IDC_CHECK3, f3);
+	DDX_Control(pDX, IDC_CHECK5, f4);
+	DDX_Control(pDX, IDC_EDIT4, xcout1);
+	DDX_Control(pDX, IDC_EDIT5, ycout1);
+	DDX_Control(pDX, IDC_EDIT8, xcout2);
+	DDX_Control(pDX, IDC_EDIT9, ycout2);
+	DDX_Control(pDX, IDC_EDIT12, xcout3);
+	DDX_Control(pDX, IDC_EDIT13, ycout3);
+	DDX_Control(pDX, IDC_EDIT16, xcout4);
+	DDX_Control(pDX, IDC_EDIT15, ycout4);
+	DDX_Slider(pDX, IDC_SLIDER12, Acon);
+	DDX_Slider(pDX, IDC_SLIDER11, k1co);
+	DDX_Text(pDX, IDC_EDIT2, Acon1);
+	DDX_Text(pDX, IDC_EDIT3, k1con1);
+	DDX_Slider(pDX, IDC_SLIDER2, fr1);
+	DDX_Slider(pDX, IDC_SLIDER3, fg1);
+	DDX_Slider(pDX, IDC_SLIDER4, fb1);
+	DDX_Slider(pDX, IDC_SLIDER5, fr2);
+	DDX_Slider(pDX, IDC_SLIDER6, fg2);
+	DDX_Slider(pDX, IDC_SLIDER7, fb2);
+	DDX_Slider(pDX, IDC_SLIDER8, fr3);
+	DDX_Slider(pDX, IDC_SLIDER9, fg3);
+	DDX_Slider(pDX, IDC_SLIDER10, fb3);
+	DDX_Slider(pDX, IDC_SLIDER14, kc2);
+	DDX_Text(pDX, IDC_EDIT6, k2con2);
+	DDX_Slider(pDX, IDC_SLIDER17, Cc);
+	DDX_Slider(pDX, IDC_SLIDER16, kc3);
+	DDX_Slider(pDX, IDC_SLIDER15, fic);
+	DDX_Text(pDX, IDC_EDIT14, Ccon);
+	DDX_Text(pDX, IDC_EDIT10, k3con);
+	DDX_Text(pDX, IDC_EDIT11, ficon);
+}
+
+BEGIN_MESSAGE_MAP(CBageshaKR2193V4Dlg, CDialogEx)
+	ON_WM_SYSCOMMAND()
+	ON_WM_PAINT()
+	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTTON1, &CBageshaKR2193V4Dlg::OnBnClickedButton1)
+	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BUTTON2, &CBageshaKR2193V4Dlg::OnBnClickedButton2)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER1, &CBageshaKR2193V4Dlg::OnNMCustomdrawSlider1)
+	ON_BN_CLICKED(IDC_RADIO7, &CBageshaKR2193V4Dlg::OnBnClickedRadio7)
+	ON_BN_CLICKED(IDC_RADIO4, &CBageshaKR2193V4Dlg::OnBnClickedRadio4)
+	ON_BN_CLICKED(IDC_RADIO6, &CBageshaKR2193V4Dlg::OnBnClickedRadio6)
+	ON_BN_CLICKED(IDC_RADIO5, &CBageshaKR2193V4Dlg::OnBnClickedRadio5)
+	ON_WM_MOUSEMOVE()
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER12, &CBageshaKR2193V4Dlg::OnNMCustomdrawSlider12)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER11, &CBageshaKR2193V4Dlg::OnNMCustomdrawSlider11)
+	
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER14, &CBageshaKR2193V4Dlg::OnNMCustomdrawSlider14)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER17, &CBageshaKR2193V4Dlg::OnNMCustomdrawSlider17)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER16, &CBageshaKR2193V4Dlg::OnNMCustomdrawSlider16)
+	ON_NOTIFY(NM_CUSTOMDRAW, IDC_SLIDER15, &CBageshaKR2193V4Dlg::OnNMCustomdrawSlider15)
+END_MESSAGE_MAP()
+
+BOOL CBageshaKR2193V4Dlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+
+	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
+	ASSERT(IDM_ABOUTBOX < 0xF000);
+
+	CMenu* pSysMenu = GetSystemMenu(FALSE);
+	if (pSysMenu != nullptr)
+	{
+		BOOL bNameValid;
+		CString strAboutMenu;
+		bNameValid = strAboutMenu.LoadString(IDS_ABOUTBOX);
+		ASSERT(bNameValid);
+		if (!strAboutMenu.IsEmpty())
+		{
+			pSysMenu->AppendMenu(MF_SEPARATOR);
+			pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, strAboutMenu);
+		}
+	}
+
+	SetIcon(m_hIcon, TRUE);			
+	SetIcon(m_hIcon, FALSE);		
+
+
+	return TRUE;  
+}
+
+void CBageshaKR2193V4Dlg::OnSysCommand(UINT nID, LPARAM lParam)
+{
+	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
+	{
+		CAboutDlg dlgAbout;
+		dlgAbout.DoModal();
+	}
+	else
+	{
+		CDialogEx::OnSysCommand(nID, lParam);
+	}
+}
+
+void CBageshaKR2193V4Dlg::OnPaint()
+{
+	if (IsIconic())
+	{
+		CPaintDC dc(this); 
+
+		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
+
+		int cxIcon = GetSystemMetrics(SM_CXICON);
+		int cyIcon = GetSystemMetrics(SM_CYICON);
+		CRect rect;
+		GetClientRect(&rect);
+		int x = (rect.Width() - cxIcon + 1) / 2;
+		int y = (rect.Height() - cyIcon + 1) / 2;
+
+
+		dc.DrawIcon(x, y, m_hIcon);
+	}
+	else
+	{
+		CDialogEx::OnPaint();
+		startgraph();
+	}
+}
+
+HCURSOR CBageshaKR2193V4Dlg::OnQueryDragIcon()
+{
+	return static_cast<HCURSOR>(m_hIcon);
+}
+
+
+
+void CBageshaKR2193V4Dlg::OnBnClickedButton1()
+{
+	if (!test)				   // если таймер не установлен
+	{
+		CString str("STOP");
+		test = true;
+		SetTimer(timerw, (speedv * 10 + 200), 0);
+		GetDlgItem(IDC_BUTTON1)->SetWindowTextW(str);
+		A = atof(_bstr_t((LPCTSTR)Acon1));
+		K1 = atof(_bstr_t((LPCTSTR)k1con1));
+		k2 = atof(_bstr_t((LPCTSTR)k2con2));
+		C = atof(_bstr_t((LPCTSTR)Ccon));
+		k3 = atof(_bstr_t((LPCTSTR)k3con));
+		fi = atof(_bstr_t((LPCTSTR)ficon));
+	}
+	else					   // а иначе (установлен)
+	{
+		CString star("START");
+		GetDlgItem(IDC_BUTTON1)->SetWindowTextW(star);
+		test = false;
+		KillTimer(timerw);
+	}
+}
+
+
+void CBageshaKR2193V4Dlg::startgraph()
+{
+	CPen pen(PS_SOLID, 3, RGB(67, 67, 68));
+	CDC* dd = GetDC();
+	dd->SelectObject(&pen);
+	int mas[40] = { 350, 270, 1050, 270, 350, 20, 350, 520, 350, 20, 1050, 20, 1050, 520, 1050,
+	20, 1050, 520, 350, 520, 1050, 270, 1043, 280, 1050, 270, 1043, 260 };
+	if (set1.GetCheck()==1)
+	{
+		settka = PS_DASH;
+	}
+	else if (set2.GetCheck() == 1)
+	{
+		settka = PS_DASHDOT;
+	}
+	else if (set3.GetCheck() == 1)
+	{
+		settka = PS_DOT;
+	}
+	CPen pens(settka, 0.05, RGB(67, 67, 68));
+	CDC* ad = GetDC();
+	ad->SelectObject(&pens);
+	for (int i = 0; i < 40; i = i + 4)
+	{
+		dd->MoveTo(mas[i], mas[i + 1]);
+		dd->LineTo(mas[i + 2], mas[i + 3]);
+	}
+	for (int i = 400; i < 1050; i = i + 50)
+	{
+		ad->MoveTo(i, 24);
+		ad->LineTo(i, 520);
+	}
+	for (int j = 520; j > 20; j = j - 50)
+	{
+		if (j != 270 && j != 520)
+		{
+			ad->MoveTo(354, j);
+			ad->LineTo(1050, j);
+		}
+
+	}
+}
+
+
+void CBageshaKR2193V4Dlg::nulgraph()
+{
+	CPen pen(PS_SOLID, 30, RGB(240, 240, 240));
+	CDC* dd = GetDC();
+	dd->SelectObject(&pen);
+	for (int i = 40; i <= 510; i+=30)
+	{
+		dd->MoveTo(366, i);
+		dd->LineTo(1034, i);
+	}
+	dd->MoveTo(366, 500);
+	dd->LineTo(1034, 500);
+
+	dd->MoveTo(367, 36);
+	dd->LineTo(367, 504);
+	dd->MoveTo(1034, 36);
+	dd->LineTo(1034, 504);
+}
+
+
+void CBageshaKR2193V4Dlg::OnTimer(UINT_PTR nIDEvent)
+{
+	CPen pen1(PS_SOLID, 4, RGB(fr1 * 2.55, fg1 * 2.55, fb1 * 2.55));
+	CDC* dd1 = GetDC();
+	dd1->SelectObject(&pen1);
+
+	CPen pen2(PS_SOLID, 4, RGB(fr2 * 2.55, fg2 * 2.55, fb2 * 2.55));
+	CDC* dd2 = GetDC();
+	dd2->SelectObject(&pen2);
+
+	CPen pen3(PS_SOLID, 4, RGB(fr3 * 2.55, fg3 * 2.55, fb3 * 2.55));
+	CDC* dd3 = GetDC();
+	dd3->SelectObject(&pen3);
+
+	CPen pen4(PS_SOLID, 4, RGB(mas[0], mas[1], mas[2]));
+	CDC* dd4 = GetDC();
+	dd4->SelectObject(&pen4);
+	 if (a_timer < 13.6) {
+		 if (f1.GetCheck()==1)
+		 {
+			 y1 = sin(A * sin(2.0 * M_PI * a_timer / K1));
+			 dd1->MoveTo(a_timer * 50 + 350, y1 * 50 + 270);
+		 }
+		 if (f2.GetCheck() == 1)
+		 {
+			 y2 = 0.5 * cos(2.0 * M_PI * a_timer / k2);
+			 dd2->MoveTo(a_timer * 50 + 350, y2 * 50 + 270);
+		 }
+		 if (f3.GetCheck() == 1)
+		 {
+			 y3 = C * cos(2.0 * M_PI * a_timer / k3 + fi * M_PI);
+			 dd3->MoveTo(a_timer * 50 + 350, y3 * 50 + 270);
+		 }
+		 if (f4.GetCheck() == 1)
+		 {
+			 y4 = (sin(A * sin(2.0 * M_PI * a_timer / K1))) - (0.5 * cos(2.0 * M_PI * a_timer / k2)) + (C * cos(2.0 * M_PI * a_timer / k3 + fi * M_PI));
+			 dd4->MoveTo(a_timer * 50 + 350, y4 * 50 + 270);
+		 }
+
+		a_timer += 0.1;
+
+		if (f1.GetCheck() == 1) {
+			y1 = sin(A * sin(2.0 * M_PI * a_timer / K1));
+			dd1->LineTo(a_timer * 50 + 350, y1 * 50 + 270);
+			y.Format(_T("%f"), ( - y1));
+			ycout1.SetWindowTextW(y);
+			x.Format(_T("%f"), a_timer);
+			xcout1.SetWindowTextW(x);
+		}
+		if (f2.GetCheck() == 1) {
+			y2 = 0.5 * cos(2.0 * M_PI * a_timer / k2);
+			dd2->LineTo(a_timer * 50 + 350, y2 * 50 + 270);
+			y.Format(_T("%f"), (-y2));
+			ycout2.SetWindowTextW(y);
+			x.Format(_T("%f"), a_timer);
+			xcout2.SetWindowTextW(x);
+		}
+		if (f3.GetCheck() == 1) {
+			y3 = C * cos(2.0 * M_PI * a_timer / k3 + fi * M_PI);
+			dd3->LineTo(a_timer * 50 + 350, y3 * 50 + 270);
+			y.Format(_T("%f"), (-y3));
+			ycout3.SetWindowTextW(y);
+			x.Format(_T("%f"), a_timer);
+			xcout3.SetWindowTextW(x);
+		}
+		if (f4.GetCheck() == 1) {
+			y4 = (sin(A * sin(2.0 * M_PI * a_timer / K1))) - (0.5 * cos(2.0 * M_PI * a_timer / k2)) + (C * cos(2.0 * M_PI * a_timer / k3 + fi * M_PI));
+			dd4->LineTo(a_timer * 50 + 350, y4 * 50 + 270);
+			y.Format(_T("%f"), (-y4));
+			ycout4.SetWindowTextW(y);
+			x.Format(_T("%f"), a_timer);
+			xcout4.SetWindowTextW(x);
+		}
+	}
+
+	 else if ( a_timer >= 13.6)
+	{
+		nulgraph();
+		startgraph();
+		b_timer += 0.1;
+		if (f1.GetCheck() == 1)
+		{
+			for (double x = 0.01; x < 13.6; )
+			{
+				y1 = sin(A * sin(2.0 * M_PI * (x + b_timer) /K1));
+				dd1->MoveTo((x + b_timer) * 50 + 350 - b_timer * 50, y1 * 50 + 270);
+				x += 0.1;
+				y1 = sin(A * sin(2.0 * M_PI * (x + b_timer) / K1));
+				dd1->LineTo((x + b_timer) * 50 + 350 - b_timer * 50, y1 * 50 + 270);
+			}
+			y.Format(_T("%f"), (-y1));
+			ycout1.SetWindowTextW(y);
+			x.Format(_T("%f"), a_timer + b_timer);
+			xcout1.SetWindowTextW(x);
+		}
+
+		if (f2.GetCheck() == 1)
+		{
+			for (double x = 0.01; x < 13.6; )
+			{
+				y2 = 0.5 * cos(2.0 * M_PI * (x + b_timer) / k2);
+				dd2->MoveTo((x + b_timer) * 50 + 350 - b_timer * 50, y2 * 50 + 270);
+				x += 0.1;
+				y2 = 0.5 * cos(2.0 * M_PI * (x + b_timer) / k2);
+				dd2->LineTo((x + b_timer) * 50 + 350 - b_timer * 50, y2 * 50 + 270);
+			}
+			y.Format(_T("%f"), (-y2));
+			ycout2.SetWindowTextW(y);
+			x.Format(_T("%f"), a_timer + b_timer);
+			xcout2.SetWindowTextW(x);
+		}
+
+		if (f3.GetCheck() == 1)
+		{
+			for (double x = 0.01; x < 13.6; )
+			{
+				y3 = C * cos(2.0 * M_PI * (x + b_timer) / k3 + fi * M_PI);
+				dd3->MoveTo((x + b_timer) * 50 + 350 - b_timer * 50, y3 * 50 + 270);
+				x += 0.1;
+				y3 = C * cos(2.0 * M_PI * (x + b_timer) / k3 + fi * M_PI);
+				dd3->LineTo((x + b_timer) * 50 + 350 - b_timer * 50, y3 * 50 + 270);
+			}
+			y.Format(_T("%f"), (-y3));
+			ycout3.SetWindowTextW(y);
+			x.Format(_T("%f"), a_timer + b_timer);
+			xcout3.SetWindowTextW(x);
+		}
+
+		if (f4.GetCheck() == 1)
+		{
+			for (double x = 0.01; x < 13.6; )
+			{
+				y4 = (sin(A * sin(2.0 * M_PI * (x + b_timer) / K1))) - (0.5 * cos(2.0 * M_PI * (x + b_timer) / k2)) + (C * cos(2.0 * M_PI * (x + b_timer) / k3 + fi * M_PI));
+				dd4->MoveTo((x + b_timer) * 50 + 350 - b_timer * 50, y4 * 50 + 270);
+				x += 0.1;
+				y4 = (sin(A * sin(2.0 * M_PI * (x + b_timer) / K1))) - (0.5 * cos(2.0 * M_PI * (x + b_timer) / k2)) + (C * cos(2.0 * M_PI * (x + b_timer) / k3 + fi * M_PI));
+				dd4->LineTo((x + b_timer) * 50 + 350 - b_timer * 50, y4 * 50 + 270);
+			}
+			y.Format(_T("%f"), (-y4));
+			ycout4.SetWindowTextW(y);
+			x.Format(_T("%f"), a_timer + b_timer);
+			xcout4.SetWindowTextW(x);
+		}
+		
+		
+	}
+
+	CDialogEx::OnTimer(nIDEvent);
+}
+
+
+void CBageshaKR2193V4Dlg::OnBnClickedButton2()
+{
+	 KillTimer(timerw);
+	 test = 0;
+	 a_timer = 0.1;
+	 b_timer = 0;
+	 test = false;
+	 CString star("START");
+	 GetDlgItem(IDC_BUTTON1)->SetWindowTextW(star);
+	 Invalidate();
+}
+
+
+
+void CBageshaKR2193V4Dlg::OnNMCustomdrawSlider1(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+
+	speeds.Format(_T("%i"), (speedv *10+200));
+	UpdateData(true);
+	speedc.SetWindowTextW(speeds);
+	UpdateData(false);
+	*pResult = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnBnClickedRadio7()
+{
+	mas [0] = 255;
+	mas[1] = 0;
+	mas[2] = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnBnClickedRadio4()
+{
+	mas[0] = 0;
+	mas[1] = 0;
+	mas[2] = 255;
+}
+
+
+void CBageshaKR2193V4Dlg::OnBnClickedRadio6()
+{
+	mas[0] = 0;
+	mas[1] = 255;
+	mas[2] = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnBnClickedRadio5()
+{
+	mas[0] = 255;
+	mas[1] = 255;
+	mas[2] = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnNMCustomdrawSlider12(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	UpdateData(true);
+	Acon1.Format(_T("%f"), Acon / 23.255814 + 1.6);
+	UpdateData(false);
+	*pResult = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnNMCustomdrawSlider11(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	UpdateData(true);
+	k1con1.Format(_T("%f"), k1co / 10.0+0.9);
+	UpdateData(false);
+	*pResult = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnMouseMove(UINT nFlags, CPoint point)
+{
+	UpdateData(true);
+	CPen penf1(PS_SOLID, 40, RGB(fr1*2.55, fg1 * 2.55, fb1 * 2.55));
+	CDC* ddf1 = GetDC();
+	ddf1->SelectObject(&penf1);
+	ddf1->MoveTo(70,54);
+	ddf1->LineTo(70,55);
+	CPen penf2(PS_SOLID, 40, RGB(fr2 * 2.55, fg2 * 2.55, fb2 * 2.55));
+	CDC* ddf2 = GetDC();
+	ddf2->SelectObject(&penf2);
+	ddf2->MoveTo(70, 207);
+	ddf2->LineTo(70, 208);
+	CPen penf3(PS_SOLID, 30, RGB(fr3 * 2.55, fg3 * 2.55, fb3 * 2.55));
+	CDC* ddf3 = GetDC();
+	ddf3->SelectObject(&penf3);
+	ddf3->MoveTo(200, 418);
+	ddf3->LineTo(200, 419);
+	UpdateData(false);
+	CDialogEx::OnMouseMove(nFlags, point);
+}
+
+
+void CBageshaKR2193V4Dlg::OnNMCustomdrawSlider14(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	UpdateData(true);
+	k2con2.Format(_T("%f"), kc2 / 10.0 + 0.9);
+	UpdateData(false);
+	*pResult = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnNMCustomdrawSlider17(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	UpdateData(true);
+	Ccon.Format(_T("%f"), Cc / 58.8235294 + 0.6);
+	UpdateData(false);
+	*pResult = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnNMCustomdrawSlider16(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	UpdateData(true);
+	k3con.Format(_T("%f"), kc3 / 10.0 + 0.9);
+	UpdateData(false);
+	*pResult = 0;
+}
+
+
+void CBageshaKR2193V4Dlg::OnNMCustomdrawSlider15(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMCUSTOMDRAW pNMCD = reinterpret_cast<LPNMCUSTOMDRAW>(pNMHDR);
+	UpdateData(true);
+	ficon.Format(_T("%f"), fic / 59.1584599 + 0.08928571);
+	UpdateData(false);
+	*pResult = 0;
+}
